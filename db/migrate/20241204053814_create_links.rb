@@ -6,6 +6,8 @@ class CreateLinks < ActiveRecord::Migration[8.0]
       t.string :title
 
       t.timestamps
+
+      t.index :short_path, unique: true
     end
   end
 end

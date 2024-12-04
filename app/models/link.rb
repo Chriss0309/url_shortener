@@ -2,7 +2,7 @@ class Link < ApplicationRecord
     validates :target_url, presence: true, url: true
     validates :short_path, presence: true, uniqueness: true, length: { maximum: 15}
 
-    has_many: visits, dependent: :destroy
+    has_many :visits, dependent: :destroy
 
     before_validation :fetch_title, on: :create
     after_create :generate_short_path

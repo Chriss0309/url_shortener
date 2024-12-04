@@ -62,4 +62,11 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# HTTP client for making API requests [https://github.com/jnunemaker/httparty]
+gem 'httparty'
+# Geocoding library for location lookups [https://github.com/alexreisner/geocoder]
+gem 'geocoder'
+# URL validation gem [https://github.com/perfectline/validates_url]
+gem 'validate_url'
+
 

@@ -1,34 +1,40 @@
 class Link < ApplicationRecord
     validates :target_url, presence: true, url: true
-    validates :short_path, presence: true, uniqueness: true, length: { maximum: 15}
+    validates :short_path, uniqueness: true, length: { maximum: 15 }, allow_nil: true
 
     has_many :visits, dependent: :destroy
 
     before_validation :fetch_title, on: :create
-    after_create :generate_short_path
+    before_create :generate_short_path
 
     private
 
     def generate_short_path
-        # Generate short_path only after we have the database ID
-        update_column(:short_path, encode_base62(id))
+        return if short_path.present?
+        
+        retries = 0
+        begin
+            self.short_path = encode_base62(id || self.class.maximum(:id).to_i + 1)
+        rescue ActiveRecord::RecordNotUnique => e
+            retries += 1
+            retry if retries < 3
+            raise e
+        end
     end
 
-    # Encodes a number into a base62 string representation
-    # @return [String] A 6-character string containing only alphanumeric characters
-    def encode_base62(number)
+    # Encodes a number into a base62 string representation using alphanumeric characters (0-9, a-z, A-Z)
+    def encode_base62(number, min_length: 4)
         chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         base = chars.length
         result = ''
 
-        # Convert number to base62 by repeatedly dividing by base and prepending remainder's corresponding character
         while number > 0
             result = chars[number % base] + result
             number /= base
         end
 
-        # Pad result with leading zeros to ensure 6 characters
-        result.rjust(6, '0')
+        # Pad result with leading zeros to ensure min_length characters
+        result = result.length < min_length ? result.rjust(min_length, '0') : result
     end
 
     # Fetches and sets the title of the target URL by making an HTTP request

@@ -1,28 +1,50 @@
-<div class="container mt-5">
-  <h1>Usage Statistics</h1>
-  
-  <div class="card mt-4">
-    <div class="card-body">
-      <h5 class="card-title">Total Clicks: <%= @visits.count %></h5>
-      
-      <table class="table mt-4">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Location</th>
-            <th>Referrer</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @visits.each do |visit| %>
-            <tr>
-              <td><%= visit.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-              <td><%= "#{visit.city}, #{visit.country}" %></td>
-              <td><%= visit.referer || "Direct" %></td>
-            </tr>
+<!DOCTYPE html>
+<html class="min-h-screen">
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="flex items-center justify-center min-h-screen px-4 relative mx-auto" style="top: -110px;">
+      <div class="w-full max-w-4xl">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+          <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Usage Statistics</h1>
+            <p class="text-gray-500 mt-2">Track how your shortened URL is performing</p>
+          </div>
+
+          <div class="mb-6">
+            <div class="bg-blue-50 rounded-lg p-6 border-2 border-blue-200">
+              <h5 class="text-xl font-bold text-gray-800 mb-2">Total Clicks: <%= @visits.count %></h5>
+              
+              <div class="overflow-x-auto">
+                <table class="w-full mt-4">
+                  <thead>
+                    <tr class="text-left border-b-2 border-gray-200">
+                      <th class="pb-3 px-4 text-gray-600">Time</th>
+                      <th class="pb-3 px-4 text-gray-600">Location</th>
+                      <th class="pb-3 px-4 text-gray-600">Referrer</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @visits.each do |visit| %>
+                      <tr class="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                        <td class="py-3 px-4"><%= visit.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                        <td class="py-3 px-4"><%= "#{visit.city}, #{visit.country}" %></td>
+                        <td class="py-3 px-4"><%= visit.referer || "Direct" %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <%= link_to root_path, 
+              class: "inline-flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Shorten Another URL
           <% end %>
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </body>
+</html>

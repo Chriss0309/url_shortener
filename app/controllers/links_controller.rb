@@ -9,7 +9,7 @@ class LinksController < ApplicationController
         @link = Link.new(link_params)
 
         if @link.save
-            redirect_to @link, notics: "Short URL created successfully!"
+            redirect_to @link, notice: "Short URL created successfully!"
         else
             render :new
         end

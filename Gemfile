@@ -68,6 +68,5 @@ gem 'httparty'
 gem 'geocoder'
 # URL validation gem [https://github.com/perfectline/validates_url]
 gem 'validate_url'
-
 gem 'tailwindcss-rails'
-
+gem 'rack-attack'

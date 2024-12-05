@@ -43,15 +43,29 @@ class Link < ApplicationRecord
         return if target_url.blank?
 
         begin
-            # Make HTTP request to get the page content
-            doc = HTTParty.get(target_url)
-            # Extract title using regex - captures text between <title> tags
-            match = doc.body.match(/<title>(.*?)<\/title>/)
-            self.title = match[1] if match
+            require 'nokogiri'
+            require 'open-uri'
+
+            # Configure headers to mimic a browser
+            user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            
+            # Open URL with headers
+            doc = Nokogiri::HTML(URI.open(
+                target_url,
+                'User-Agent' => user_agent,
+                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language' => 'en-US,en;q=0.5'
+            ))
+            
+            # Find the title tag and get its content
+            title_tag = doc.at_css('title')
+            self.title = title_tag.content.strip if title_tag
+        rescue OpenURI::HTTPError => e
+            Rails.logger.error("HTTP Error fetching title for #{target_url}: #{e.message}")
+            nil
         rescue StandardError => e
-            # If anything goes wrong (network error,etc),
-            # log it but allow the save to continue
             Rails.logger.error("Failed to fetch title for #{target_url}: #{e.message}")
+            nil
         end
     end
 

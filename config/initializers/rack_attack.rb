@@ -30,10 +30,7 @@ class Rack::Attack
   end
 
   # Custom error message for throttled requests
-  self.throttled_response = lambda do |env|
-    [ 429, # status
-      {'Content-Type' => 'application/json'}, # headers
-      [{error: "Rate limit exceeded. Please try again later."}.to_json] # body
-    ]
+  self.throttled_responder = lambda do |env|
+    [429, {}, ["Too many requests. Please try again later.\n"]]
   end
 end 

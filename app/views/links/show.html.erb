@@ -2,15 +2,15 @@
 <html class="min-h-screen">
   <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
     <div class="flex items-center justify-center min-h-screen px-4 relative mx-auto" style="top: -110px;">
-      <div class="max-w-2xl mx-auto px-4">
-        <div class="bg-white rounded-2xl shadow-xl p-8">
-          <div class="text-center mb-8">
+      <div class="max-w-2xl mx-auto px-4 animate-slide-up">
+        <div class="bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl">
+          <div class="text-center mb-8 animate-fade-in">
             <h1 class="text-3xl font-bold text-gray-800">Your Shortened URL is Ready!</h1>
             <p class="text-gray-500 mt-2">Share your link with anyone, anywhere</p>
           </div>
 
           <% if @link.title.present? %>
-            <div class="mb-6">
+            <div class="mb-6 transition-all duration-300 transform hover:-translate-y-1">
               <label class="block text-sm font-medium font-extrabold mb-2">Page Title</label>
               <div class="mb-8 p-4 bg-gray-50 rounded-lg">
                 <p class="text-bold"><%= @link.title %></p>
@@ -19,7 +19,7 @@
           <% end %>
 
           <!-- Original URL Card -->
-          <div class="mb-6">
+          <div class="mb-6 transition-all duration-300 transform hover:-translate-y-1">
             <label class="block text-sm font-medium font-extrabold mb-2">Original URL</label>
             <div class="flex items-center bg-gray-50 rounded-lg p-4">
               <div class="truncate flex-1">
@@ -35,7 +35,7 @@
           </div>
 
           <!-- Shortened URL Card -->
-          <div class="mb-8">
+          <div class="mb-8 transition-all duration-300 transform hover:-translate-y-1">
             <label class="block text-sm font-medium font-extrabold mb-2">Shortened URL</label>
             <div class="flex items-center bg-blue-50 rounded-lg p-4 border-2 border-blue-200">
               <div class="truncate flex-1">
@@ -56,7 +56,7 @@
           <!-- Action Buttons -->
           <div class="flex gap-4">
             <%= link_to stats_link_path(@link), 
-                class: "flex-1 inline-flex justify-center items-center px-4 py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" do %>
+                class: "flex-1 inline-flex justify-center items-center px-4 py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:-translate-y-1" do %>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
@@ -64,7 +64,7 @@
             <% end %>
             
             <%= link_to root_path, 
-                class: "flex-1 inline-flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" do %>
+                class: "flex-1 inline-flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:-translate-y-1" do %>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>

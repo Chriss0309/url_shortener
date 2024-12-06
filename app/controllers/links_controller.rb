@@ -1,3 +1,6 @@
+require 'net/http'
+require 'json'
+
 class LinksController < ApplicationController
     before_action :set_link, only: [:show, :stats]
 
@@ -8,10 +11,11 @@ class LinksController < ApplicationController
     def create
         @link = Link.new(link_params)
 
-        if @link.save
+        if verify_turnstile && @link.save
             redirect_to @link, notice: "Short URL created successfully!"
         else
-            render :new
+            @link.errors.add(:base, 'Please verify you are human') unless verify_turnstile
+            render :new, status: :unprocessable_entity
         end
     end
 
@@ -45,5 +49,17 @@ class LinksController < ApplicationController
         params.require(:link).permit(:target_url)
     end
 
-    
+    def verify_turnstile
+        token = params['cf-turnstile-response']
+        
+        uri = URI('https://challenges.cloudflare.com/turnstile/v0/siteverify')
+        response = Net::HTTP.post_form(uri, {
+            'secret' => ENV['TURNSTILE_SECRET_KEY'],
+            'response' => token,
+            'remoteip' => request.remote_ip
+        })
+        
+        JSON.parse(response.body)['success']
+    end
+
 end

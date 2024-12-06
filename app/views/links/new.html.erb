@@ -1,56 +1,59 @@
 <!DOCTYPE html>
 <html class="min-h-screen">
-<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-<div class="flex items-center justify-center min-h-screen px-4 relative mx-auto" style="top: -110px;">
-  <div class="w-full max-w-md">
-    <div class="bg-white rounded-2xl shadow-xl p-8">
-      <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
-        URL Shortener
-        <span class="block text-lg font-normal text-gray-500 mt-2">Make your long URLs short and trackable</span>
-      </h1>
-      
-      <%= form_with(model: @link, local: true, class: "space-y-6", id: "url-form") do |f| %>
-        <% if @link.errors.any? %>
-          <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                </svg>
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="flex items-center justify-center min-h-screen px-4 relative mx-auto" style="top: -100px;">
+      <div class="w-full max-w-2xl animate-slide-up">
+        <div class="bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl">
+          <h1 class="text-4xl font-bold text-center text-gray-800 mb-8 animate-fade-in">
+            URL Shortener
+            <span class="block text-lg font-normal text-gray-500 mt-2">Make your long URLs short and trackable</span>
+          </h1>
+          
+          <%= form_with(model: @link, local: true, class: "space-y-6", id: "url-form") do |f| %>
+            <% if @link.errors.any? %>
+              <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded animate-fade-in">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800">
+                      <%= pluralize(@link.errors.count, "error") %> prohibited this URL from being shortened:
+                    </h3>
+                    <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                      <% @link.errors.full_messages.each do |msg| %>
+                        <li><%= msg %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div class="ml-3">
-                <h3 class="text-sm font-medium text-red-800">
-                  <%= pluralize(@link.errors.count, "error") %> prohibited this URL from being shortened:
-                </h3>
-                <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
-                  <% @link.errors.full_messages.each do |msg| %>
-                    <li><%= msg %></li>
-                  <% end %>
-                </ul>
+            <% end %>
+            
+            <div class="relative transition-all duration-300 transform hover:-translate-y-1">
+              <%= f.label :target_url, "Enter your URL", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <div class="flex">
+                <%= f.url_field :target_url, 
+                    class: "block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300", 
+                    placeholder: "https://example.com",
+                    id: "url-input" %>
               </div>
+              <div id="url-feedback" class="mt-2 text-sm hidden"></div>
             </div>
-          </div>
-        <% end %>
-        
-        <div class="relative">
-          <%= f.label :target_url, "Enter your URL", class: "block text-sm font-medium text-gray-700 mb-2" %>
-          <div class="flex">
-            <%= f.url_field :target_url, 
-                class: "block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors", 
-                placeholder: "https://example.com",
-                id: "url-input" %>
-          </div>
-          <div id="url-feedback" class="mt-2 text-sm hidden"></div>
+            
+            <div class="cf-turnstile" data-sitekey="<%= ENV['TURNSTILE_SITE_KEY'] %>"></div>
+            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+            
+            <%= f.submit "Shorten URL", 
+                class: "w-full py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer",
+                id: "submit-button" %>
+          <% end %>
         </div>
-        
-        <%= f.submit "Shorten URL", 
-            class: "w-full py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors",
-            id: "submit-button" %>
-      <% end %>
+      </div>
     </div>
-  </div>
-</div>
-</body>
+  </body>
 </html>
 
 <%= javascript_tag do %>

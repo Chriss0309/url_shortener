@@ -71,3 +71,5 @@ gem 'validate_url'
 gem 'tailwindcss-rails'
 gem 'rack-attack'
 gem 'nokogiri'
+gem "turnstile-rb"
+

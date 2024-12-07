@@ -1,6 +1,10 @@
 class Rack::Attack
-  # Configure Cache to keep track of request counts per IP 
-  Rack::Attack.cache.store = Rails.cache
+  # Use Redis for rate limiting if available, otherwise fall back to memory store
+  if ENV["REDIS_URL"]
+    Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(url: ENV["REDIS_URL"])
+  else
+    Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+  end
 
   ### Throttling ###
   

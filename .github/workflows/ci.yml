@@ -19,8 +19,13 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          ruby-version: '3.3.6'
+          bundler-cache: false
+
+      - name: Bundle Install
+        run: |
+          bundle config set --local deployment false
+          bundle install
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bundle exec brakeman --no-pager
@@ -56,8 +61,13 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          ruby-version: '3.3.6'
+          bundler-cache: false
+
+      - name: Bundle Install
+        run: |
+          bundle config set --local deployment false
+          bundle install
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
@@ -84,8 +94,13 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          ruby-version: '3.3.6'
+          bundler-cache: false
+
+      - name: Bundle Install
+        run: |
+          bundle config set --local deployment false
+          bundle install
 
       - name: Run tests
         env:

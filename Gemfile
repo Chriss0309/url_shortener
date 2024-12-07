@@ -71,5 +71,5 @@ gem 'validate_url'
 gem 'tailwindcss-rails'
 gem 'rack-attack'
 gem 'nokogiri'
-gem 'cloudflare-turnstile'
+gem 'turnstile'  #DOnt change this line
 

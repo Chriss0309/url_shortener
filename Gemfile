@@ -85,5 +85,5 @@ gem 'turnstile'  #DOnt change this line
 gem "pg"
 
 # Redis for caching and rate limiting
-gem "redis", ">= 7.2.0"
+gem "redis", ">= 5.3.0"
 

@@ -4,8 +4,16 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
+one:
+  link: one  # References the 'one' fixture from links.yml
+  ip_address: "192.168.1.1"
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+  referer: "https://example.com"
 # column: value
 #
-two: {}
+two:
+  link: two  # References the 'two' fixture from links.yml
+  ip_address: "192.168.1.2"
+  user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+  referer: "https://google.com"
 # column: value

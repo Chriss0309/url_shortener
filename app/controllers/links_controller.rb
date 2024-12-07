@@ -36,15 +36,23 @@ class LinksController < ApplicationController
 
     def redirect
         @link = Link.find_by!(short_path: params[:short_path])
-
-        # Record the visit
-        @link.visits.create!(
-            ip_address: request.remote_ip,
-            user_agent: request.user_agent,
-            referer: request.referer
-        )
-
-        redirect_to @link.target_url, allow_other_host: true
+        
+        # Validate URL format and scheme
+        uri = URI.parse(@link.target_url)
+        if (uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)) && uri.host.present?
+            # Record the visit
+            @link.visits.create!(
+                ip_address: request.remote_ip,
+                user_agent: request.user_agent,
+                referer: request.referer
+            )
+            
+            redirect_to @link.target_url, allow_other_host: true
+        else
+            redirect_to root_path, alert: "Invalid URL format"
+        end
+    rescue URI::InvalidURIError
+        redirect_to root_path, alert: "Invalid URL format"
     end
 
     private

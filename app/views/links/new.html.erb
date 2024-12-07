@@ -43,7 +43,7 @@
               <div id="url-feedback" class="mt-2 text-sm hidden"></div>
             </div>
             
-            <div class="cf-turnstile" data-sitekey="<%= ENV['TURNSTILE_SITE_KEY'] %>"></div>
+            <div class="cf-turnstile" data-sitekey="<%= ENV["TURNSTILE_SITE_KEY"] %>"></div>
             <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
             
             <%= f.submit "Shorten URL", 
@@ -57,33 +57,32 @@
 </html>
 
 <%= javascript_tag do %>
-  document.addEventListener('DOMContentLoaded', function() {
-    const urlInput = document.getElementById('url-input');
-    const urlFeedback = document.getElementById('url-feedback');
-    const submitButton = document.getElementById('submit-button');
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlInput = document.getElementById("url-input");
+    const urlFeedback = document.getElementById("url-feedback");
+    const submitButton = document.getElementById("submit-button");
     
-    urlInput.addEventListener('input', function() {
+    urlInput.addEventListener("input", function() {
       try {
         const url = new URL(this.value);
-        urlFeedback.textContent = '✓ Valid URL format';
-        urlFeedback.classList.remove('hidden', 'text-red-500');
-        urlFeedback.classList.add('text-green-500');
+        urlFeedback.textContent = "✓ Valid URL format";
+        urlFeedback.classList.remove("hidden", "text-red-500");
+        urlFeedback.classList.add("text-green-500");
         submitButton.disabled = false;
       } catch {
         if (this.value) {
-          urlFeedback.textContent = '✗ Please enter a valid URL';
-          urlFeedback.classList.remove('hidden', 'text-green-500');
-          urlFeedback.classList.add('text-red-500');
+          urlFeedback.textContent = "✗ Please enter a valid URL";
+          urlFeedback.classList.remove("hidden", "text-green-500");
+          urlFeedback.classList.add("text-red-500");
           submitButton.disabled = true;
         } else {
-          urlFeedback.classList.add('hidden');
+          urlFeedback.classList.add("hidden");
           submitButton.disabled = false;
         }
       }
     });
     
-    // Add loading state to button when form is submitted
-    document.getElementById('url-form').addEventListener('submit', function() {
+    document.getElementById("url-form").addEventListener("submit", function() {
       submitButton.disabled = true;
       submitButton.innerHTML = `
         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

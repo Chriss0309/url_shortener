@@ -60,6 +60,10 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # Add these gems for testing
+  gem "net-ftp", require: false
+  gem "webmock"
+  gem "minitest"
 end
 
 # HTTP client for making API requests [https://github.com/jnunemaker/httparty]

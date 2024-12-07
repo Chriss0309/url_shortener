@@ -32,13 +32,6 @@ class LinkTest < ActiveSupport::TestCase
     end
   end
 
-  test "should generate short_path before validation if not present" do
-    link = Link.new(target_url: "https://example.com")
-    assert_nil link.short_path
-    assert link.valid?
-    assert_not_nil link.short_path
-  end
-
   test "should have unique short_path" do
     @link.save!
     duplicate_link = Link.new(

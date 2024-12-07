@@ -40,3 +40,7 @@ queue:
 cache:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
+
+throttle:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>

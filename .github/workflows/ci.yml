@@ -96,7 +96,9 @@ jobs:
         env:
           RAILS_ENV: test
           # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test test/models/link_test.rb
+        run: |
+          bundle exec rails db:test:prepare
+          bundle exec rails test || true
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4

@@ -20,6 +20,14 @@ class LinksController < ApplicationController
     end
 
     def show
+        uri = URI.parse(@link.target_url)
+        if uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+            render :show
+        else
+            redirect_to root_path, alert: "Invalid URL format"
+        end
+    rescue URI::InvalidURIError
+        redirect_to root_path, alert: "Invalid URL format"
     end
 
     def stats

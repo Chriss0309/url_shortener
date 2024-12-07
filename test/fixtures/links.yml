@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  target_url: MyString
-  short_path: MyString
-  title: MyString
+  target_url: "https://example.com"
+  short_path: "unique_path_1"
+  title: "MyString"
 
 two:
-  target_url: MyString
-  short_path: MyString
-  title: MyString
+  target_url: "https://another-example.com"
+  short_path: "unique_path_2"
+  title: "MyString"

@@ -60,7 +60,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  # Add these gems for testing
+  # Gems for testing
   gem "net-ftp", require: false
   gem "webmock"
   gem "minitest"

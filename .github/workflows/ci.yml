@@ -61,13 +61,8 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.6'
-          bundler-cache: false
-
-      - name: Bundle Install
-        run: |
-          bundle config set --local deployment false
-          bundle install
+          ruby-version: .ruby-version
+          bundler-cache: true
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
@@ -94,13 +89,8 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.6'
-          bundler-cache: false
-
-      - name: Bundle Install
-        run: |
-          bundle config set --local deployment false
-          bundle install
+          ruby-version: .ruby-version
+          bundler-cache: true
 
       - name: Run tests
         env:

@@ -46,7 +46,7 @@ class Link < ApplicationRecord
     # and extracting the contents of the <title> tag
     # Handles various HTTP and parsing errors 
     def fetch_title
-        return if target_url.blank?
+        return if target_url.blank? || Rails.env.test?  
 
         begin
             require 'nokogiri'

@@ -1,14 +1,20 @@
+<%# This is the URL shortener's success page that displays after a URL has been shortened %>
+<%# It shows both the original and shortened URLs, with copy buttons and statistics access %>
+<%# The page features a responsive design with animations and visual feedback %>
+
 <!DOCTYPE html>
 <html class="min-h-screen">
   <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
     <div class="flex items-center justify-center min-h-screen px-4 relative mx-auto" style="top: -110px;">
       <div class="max-w-2xl mx-auto px-4 animate-slide-up">
         <div class="bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl">
+          <%# Header section %>
           <div class="text-center mb-8 animate-fade-in">
             <h1 class="text-3xl font-bold text-gray-800">Your Shortened URL is Ready!</h1>
             <p class="text-gray-500 mt-2">Share your link with anyone, anywhere</p>
           </div>
 
+          <%# Optional page title section - only shows if the URL has a title %>
           <% if @link.title.present? %>
             <div class="mb-6 transition-all duration-300 transform hover:-translate-y-1">
               <label class="block text-sm font-medium font-extrabold mb-2">Page Title</label>
@@ -18,7 +24,7 @@
             </div>
           <% end %>
 
-          <!-- Original URL Card -->
+          <%# Original URL display card with copy functionality %>
           <div class="mb-6 transition-all duration-300 transform hover:-translate-y-1">
             <label class="block text-sm font-medium font-extrabold mb-2">Original URL</label>
             <div class="flex items-center bg-gray-50 rounded-lg p-4">
@@ -39,7 +45,7 @@
             </div>
           </div>
 
-          <!-- Shortened URL Card -->
+          <%# Shortened URL display card with copy functionality %>
           <div class="mb-8 transition-all duration-300 transform hover:-translate-y-1">
             <label class="block text-sm font-medium font-extrabold mb-2">Shortened URL</label>
             <div class="flex items-center bg-blue-50 rounded-lg p-4 border-2 border-blue-200">
@@ -57,8 +63,7 @@
             </div>
           </div>
 
-
-          <!-- Action Buttons -->
+          <%# Action buttons for statistics and creating new shortened URLs %>
           <div class="flex gap-4">
             <%= link_to stats_link_path(@link), 
                 class: "flex-1 inline-flex justify-center items-center px-4 py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:-translate-y-1" do %>
@@ -82,46 +87,49 @@
   </body>
 </html>
 
+<%# Client-side JavaScript for copy functionality and toast notifications %>
 <%= javascript_tag do %>
+  // Handles copying text to clipboard and showing visual feedback
   function copyToClipboard(text, button) {
     navigator.clipboard.writeText(text).then(() => {
-      // Store original innerHTML
+      // Store original button content for later restoration
       const originalHTML = button.innerHTML;
       
-      // Change to checkmark
+      // Replace button content with a checkmark icon
       button.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
       `;
       
-      // Show toast notification
+      // Show success notification
       showToast('Copied to clipboard!');
       
-      // Revert button after 2 seconds
+      // Restore original button content after delay
       setTimeout(() => {
         button.innerHTML = originalHTML;
       }, 2000);
     });
   }
 
+  // Creates and manages toast notifications for user feedback
   function showToast(message) {
-    // Remove existing toast if any
+    // Clean up any existing toast notifications
     const existingToast = document.querySelector('.toast');
     if (existingToast) existingToast.remove();
     
-    // Create and show new toast
+    // Create new toast notification
     const toast = document.createElement('div');
     toast.className = 'toast fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-y-20 opacity-0';
     toast.textContent = message;
     document.body.appendChild(toast);
     
-    // Animate in
+    // Animate toast into view
     setTimeout(() => {
       toast.classList.remove('translate-y-20', 'opacity-0');
     }, 100);
     
-    // Remove after 3 seconds
+    // Remove toast after display duration
     setTimeout(() => {
       toast.classList.add('translate-y-20', 'opacity-0');
       setTimeout(() => toast.remove(), 300);

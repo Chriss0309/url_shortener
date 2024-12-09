@@ -1,18 +1,25 @@
+<%# This is the statistics page for a shortened URL, displaying visit data and analytics %>
+<%# It shows total clicks, and a table with detailed information about each visit %>
+
 <!DOCTYPE html>
 <html class="min-h-screen">
   <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
     <div class="flex items-center justify-center min-h-screen px-4 relative mx-auto" style="top: -110px;">
       <div class="w-full max-w-4xl animate-slide-up">
+        <%# Main content card with hover shadow effect %>
         <div class="bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl">
+          <%# Header section %>
           <div class="text-center mb-8 animate-fade-in">
             <h1 class="text-3xl font-bold text-gray-800">Usage Statistics</h1>
             <p class="text-gray-500 mt-2">Track how your shortened URL is performing</p>
           </div>
 
+          <%# Statistics display section %>
           <div class="mb-6">
             <div class="bg-blue-50 rounded-lg p-6 border-2 border-blue-200 transition-all duration-300 transform hover:-translate-y-1">
               <h5 class="text-xl font-bold text-gray-800 mb-2">Total Clicks: <%= @visits.count %></h5>
               
+              <%# Visits table with horizontal scroll for mobile %>
               <div class="overflow-x-auto">
                 <table class="w-full mt-4">
                   <thead>
@@ -23,6 +30,7 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <%# Iterate through visits with staggered animation %>
                     <% @visits.each_with_index do |visit, index| %>
                       <tr class="border-b border-gray-100 hover:bg-blue-50 transition-all duration-300" 
                           style="animation-delay: <%= index * 0.1 %>s; animation: slideUpFade 0.5s ease-out forwards;">
@@ -37,6 +45,7 @@
             </div>
           </div>
 
+          <%# Action button to create new shortened URL %>
           <%= link_to root_path, 
               class: "inline-flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:-translate-y-1" do %>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

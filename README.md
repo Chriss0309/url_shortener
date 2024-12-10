@@ -4,7 +4,7 @@
 
 A Ruby on Rails application that shortens URLs and provides visit analytics📈.
 
-Live Demo: https://coingecko-url-shortener-bc1b0ea0ebce.herokuapp.com/
+Live Demo: https://coingecko-url-shortener-cc773919d2a2.herokuapp.com/
 
 ## Features
 - URL shortening with base62 encoding
